@@ -1,0 +1,333 @@
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title">
+          <div class="example" style="display: flex;justify-content: space-between;">
+            <label style="font-size: 24px;">Tìm kiếm</label>
+            <div>
+              <button type="button" ngbTooltip="Ẩn/ Hiện cột"
+                      style="background-color: #FFF; padding: 8px 12px;gap:8px;border: none;color: #141ED2;"
+                      class="btn btn-primary btn-sm me-1 mb-2 mb-md-0 me-2" (click)="openModal('ShowHideColumn', null)">
+                <i class="mdi mdi-view-week"></i>
+              </button>
+              <button type="button" ngbTooltip="Xuất dữ liệu"
+                      style="background-color: #E8E9FB; padding: 8px 12px;gap:8px;border: none;color: #141ED2;"
+                      class="btn btn-primary btn-sm me-1 mb-2 mb-md-0 me-2" (click)="doExport()"><i
+                class="fa fa-upload"></i> Export
+              </button>
+              <button type="button" ngbTooltip="Import dữ liệu"
+                      style="background-color: #E8E9FB; padding: 8px 12px;gap:8px;border: none;color: #141ED2;"
+                      class="btn btn-primary btn-sm me-1 mb-2 mb-md-0 me-2" (click)="openModal('Import', null)"><i
+                class="fa fa-download"></i> Import
+              </button>
+              <button [matMenuTriggerFor]="subMenuInsert" type="button" ngbTooltip="Thêm mới"
+                      style="background-color: #E8E9FB; padding: 8px 12px;gap:8px;border: none;color: #141ED2;"
+                      class="btn btn-primary btn-sm me-1 mb-2 mb-md-0 me-2"><i
+                class="fa fa-plus"></i> Thêm mới <i class="fa fa-angle-down"></i>
+              </button>
+              <mat-menu #subMenuInsert="matMenu">
+                <button mat-menu-item (click)="openModal('Insert', 1)">Thêm mới hoạt động cấp 1</button>
+                <button mat-menu-item (click)="openModal('Insert', 2)">Thêm mới hoạt động cấp 2</button>
+              </mat-menu>
+            </div>
+          </div>
+        </h6>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-12">
+            <div class="card card-outline" style="background-color: #fff !important;">
+              <div class="card-body pad promotion-box">
+                <form [formGroup]="formSearch" style="padding: 20px">
+                  <div class="row mb-3">
+                    <div class="col-md-2">
+                      <label for="codeLevel1" class="form-label">Mã hoạt động cấp 1</label>
+                    </div>
+                    <div class="col-md-4">
+                      <input type="text" class="form-control" id="codeLevel1" formControlName="codeLevel1"
+                             placeholder="Nhập thông tin">
+                    </div>
+                    <div class="col-md-2">
+                      <label for="nameLevel1" class="form-label">Hoạt động cấp 1</label>
+                    </div>
+                    <div class="col-md-4">
+                      <input type="text" class="form-control" id="nameLevel1" formControlName="nameLevel1"
+                             placeholder="Nhập thông tin">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-md-2">
+                      <label for="codeLevel2" class="form-label">Mã hoạt động cấp 2</label>
+                    </div>
+                    <div class="col-md-4">
+                      <input type="text" class="form-control" id="codeLevel2" formControlName="codeLevel2"
+                             placeholder="Nhập thông tin">
+                    </div>
+                    <div class="col-md-2">
+                      <label for="nameLevel2" class="form-label">Hoạt động cấp 2</label>
+                    </div>
+                    <div class="col-md-4">
+                      <input type="text" class="form-control" id="nameLevel2" formControlName="nameLevel2"
+                             placeholder="Nhập thông tin">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-md-2">
+                      <label for="status" class="form-label">Trạng thái</label>
+                    </div>
+                    <div class="col-md-4">
+                      <ng-select id="status" [items]="statusList" [multiple]=false [closeOnSelect]="true"
+                                 [searchable]="false" (change)="search()"
+                                 bindValue="id" bindLabel="name" formControlName="status">
+                      </ng-select>
+                    </div>
+                    <div class="col-md-2">
+                      <label for="modifiedBy" class="form-label">Người cập nhật</label>
+                    </div>
+                    <div class="col-md-4">
+                      <ng-select id="modifiedBy" [items]="userList" [multiple]=false [closeOnSelect]="true"
+                                 [searchable]="true" (change)="search()"
+                                 bindValue="id" bindLabel="userId" formControlName="modifiedBy">
+                      </ng-select>
+                    </div>
+                  </div>
+                  <div class="text-center" style="margin-top: 30px">
+                    <button type="button" class="btn btn-primary" (click)="doClear()"
+                            ngbTooltip="Reset dữ liệu tìm kiếm">
+                      Clear
+                    </button>
+                    <button type="submit" style="margin-left: 10px" class="btn btn-primary" (click)="search()"
+                            ngbTooltip="Tìm kiếm dữ liệu"><i class="fa fa-search"></i> Tìm kiếm
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title">
+          <div class="example" style="display: flex;justify-content: space-between;">
+            <label style="font-size: 24px;">Danh sách hoạt động</label>
+          </div>
+        </h6>
+        <ag-grid-angular style="width: 100%; height:500px;" class="ag-theme-alpine" [columnDefs]="columnDefs"
+                         [defaultColDef]="defaultColDef" [rowData]="rowData" (filterOpened)="onFilterOpened($event)"
+                         (filterChanged)="onFilterChanged($event)" (filterModified)="onFilterModified($event)"
+                         (paginationChanged)="onPaginationChangedEvent($event)"
+                         [paginationPageSize]="20"
+                         [paginationAutoPageSize]="false" [pagination]="false" [enableBrowserTooltips]="true"
+                         [suppressRowClickSelection]="true" [groupSelectsChildren]="true"
+                         [rowSelection]="rowSelection"
+                         (gridReady)="onGridReady($event)" [enableCellTextSelection]="true"
+                         [ensureDomOrder]="true"></ag-grid-angular>
+        <!-- Pagination -->
+        <mat-paginator-goto #paginator class="demo-paginator" (page)="handlePageEvent($event)" [length]="length"
+                            [pageSize]="20" [disabled]="disabled"
+                            [showFirstLastButtons]="showFirstLastButtons"
+                            [hidePageSize]="hidePageSize" [pageIndex]="pageIndex" aria-label="Select page"
+                            (page)="paginationChange($event)">
+        </mat-paginator-goto>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #contentShowHideColumn let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title"></h4>
+    <button type="button" class="btn-close" aria-label="Close"
+            (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div class="row mb-2">
+      <mat-checkbox *ngFor="let item of customFilteredData" #checkbox class="example-margin"
+                    (change)="checkboxChanged(item.id,checkbox.checked)"
+                    [checked]="item.ischecked">{{item.value}}</mat-checkbox>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #contentImport let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Import hoạt động</h4>
+    <button type="button" class="btn-close" aria-label="Close" ngbTooltip="Đóng lại"
+            (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div class="row mb-2">
+      <div class="col-md-6">
+        <label class="form-label">Bước 1: Download template</label>
+        <label class="form-label">Bước 2: Bổ sung dữ liệu</label>
+        <label class="form-label">Bước 3: Upload file vừa cập nhật</label>
+      </div>
+      <div class="col-md-6">
+        <button type="button" class="btn btn-primary" (click)="doDownloadTemplate()" ngbTooltip="Tải file template"><i
+          class="fa fa-download"></i> Download template
+        </button>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-md-12">
+        <div class="uploadzone" fileDragDrop (filesChangeEmiter)="onFileChange($any($event))">
+          <div class="text-wrapper">
+            <div class="centered"><label for="file">
+              <input style="visibility: hidden;" type="file" name="file" id="file"
+                     accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                     #filesInput (change)="onFileChange($any($event).target.files)"><br>
+              <span class="textLink">Select your file</span> or Drag&Drop file here!</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-md-12">
+        <ul>
+          <h3 mat-subheader></h3>
+          <mat-list-item *ngFor="let file of files">
+            <h5 mat-line><i class="feather icon-file-minus" style="cursor: pointer"
+                            (click)="deleteFile(file)"></i> {{file.name}}</h5>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')"
+            ngbTooltip="Hủy thao tác">Hủy
+    </button>
+    <button type="button" [disabled]="files.length == 0" class="btn btn-primary" style="margin-left: 10px"
+            (click)="doValidateFileImport()" ngbTooltip="Validate file">Validate file
+    </button>
+    <button type="button" [disabled]="files.length == 0" class="btn btn-primary" style="margin-left: 10px"
+            (click)="doImport()" ngbTooltip="Import file">Import file
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #contentInsert let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Thêm mới hoạt động cấp {{txtLevel}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" ngbTooltip="Đóng lại"
+            (click)="resetModal('Insert'); modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formInsert">
+      <div class="mb-2" *ngIf="txtLevel == 2">
+        <label class="form-label">Hoạt động cấp 1 <span class="required">*</span></label>
+        <ng-select formControlName="parentCode" [items]="hoatDongLevel1List" [multiple]=false [closeOnSelect]="true"
+                   [searchable]="true" bindValue="id" bindLabel="name">
+        </ng-select>
+        <p class="text-danger mt-1" *ngIf="txtLevel == 2 && isFieldValidate(formInsert, 'required', 'parentCode')">Thông
+          tin bắt buộc</p>
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Hoạt động cấp {{txtLevel}} <span class="required">*</span></label>
+        <input class="form-control" type="text" name="name" formControlName="name"/>
+        <p class="text-danger mt-1" *ngIf="isFieldValidate(formInsert, 'required', 'name')">Thông tin bắt buộc</p>
+        <p class="text-danger mt-1" *ngIf="isFieldValidate(formInsert, 'maxlength', 'name')">Trường hoạt động độ dài
+          không vượt quá 1000 ký tự</p>
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Trạng thái</label>
+        <ng-select formControlName="status" [items]="statusListSaveOrUpdate" [multiple]=false [closeOnSelect]="true"
+                   [searchable]="false" bindValue="id" bindLabel="name">
+        </ng-select>
+        <p class="text-danger mt-1" *ngIf="isFieldValidate(formInsert, 'required', 'status')">Thông tin bắt buộc</p>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="resetModal('Insert'); modal.close('Close click')"
+            ngbTooltip="Hủy thao tác">Hủy
+    </button>
+    <button type="button" [disabled]="formInsert.invalid" class="btn btn-primary" style="margin-left: 10px"
+            (click)="doInsert()" ngbTooltip="Xác nhận">Xác nhận
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #contentUpdate let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Cập nhật hoạt động</h4>
+    <button type="button" class="btn-close" aria-label="Close" ngbTooltip="Đóng lại"
+            (click)="resetModal('Insert'); modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formUpdate">
+      <div class="row mb-2">
+        <div class="col-md-4">
+          <label class="form-label">Mã hoạt động cấp 1 <span class="required">*</span></label>
+          <input class="form-control" type="text" name="code" formControlName="code" [readonly]="true"/>
+        </div>
+        <div class="col-md-8">
+          <label class="form-label">Hoạt động cấp 1 <span class="required">*</span></label>
+          <input class="form-control" type="text" name="nameLevel1" formControlName="nameLevel1"/>
+          <p class="text-danger mt-1" *ngIf="isFieldValidate(formUpdate, 'required', 'nameLevel1')">Thông tin bắt
+            buộc</p>
+          <p class="text-danger mt-1" *ngIf="isFieldValidate(formUpdate, 'maxlength', 'nameLevel1')">Trường hoạt động độ
+            dài không vượt quá 1000 ký tự</p>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-md-4">
+          <label class="form-label">Mã hoạt động cấp 2 <span class="required">*</span></label>
+          <input class="form-control" type="text" name="parentCode" formControlName="parentCode" [readonly]="true"/>
+        </div>
+        <div class="col-md-8">
+          <label class="form-label">Hoạt động cấp 2 <span class="required">*</span></label>
+          <input class="form-control" type="text" name="nameLevel2" formControlName="nameLevel2"/>
+          <p class="text-danger mt-1" *ngIf="isFieldValidate(formUpdate, 'required', 'nameLevel2')">Thông tin bắt
+            buộc</p>
+          <p class="text-danger mt-1" *ngIf="isFieldValidate(formUpdate, 'maxlength', 'nameLevel2')">Trường hoạt động độ
+            dài không vượt quá 1000 ký tự</p>
+        </div>
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Trạng thái</label>
+        <ng-select formControlName="status" [items]="statusListSaveOrUpdate" [multiple]=false [closeOnSelect]="true"
+                   [searchable]="false" bindValue="id" bindLabel="name">
+        </ng-select>
+        <p class="text-danger mt-1" *ngIf="isFieldValidate(formUpdate, 'required', 'status')">Thông tin bắt buộc</p>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="resetModal('Insert'); modal.close('Close click')"
+            ngbTooltip="Hủy thao tác">Hủy
+    </button>
+    <button type="button" [disabled]="formUpdate.invalid" class="btn btn-primary" style="margin-left: 10px"
+            (click)="doUpdate()" ngbTooltip="Xác nhận">Xác nhận
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #contentHistory let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Lịch sử cập nhật hoạt động</h4>
+    <button type="button" class="btn-close" aria-label="Close" ngbTooltip="Đóng lại"
+            (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <ag-grid-angular style="width: 100%; height:500px;" class="ag-theme-alpine" [columnDefs]="columnDefsHistory"
+                     [defaultColDef]="defaultColDef" [rowData]="rowDataHistory" (filterOpened)="onFilterOpened($event)"
+                     (filterChanged)="onFilterChanged($event)" (filterModified)="onFilterModified($event)"
+                     [paginationPageSize]="paginationPageSize"
+                     [paginationAutoPageSize]="false" [pagination]="false" [enableBrowserTooltips]="true"
+                     [suppressRowClickSelection]="true" [groupSelectsChildren]="true"
+                     [rowSelection]="rowSelection"
+                     (gridReady)="onGridReady($event)" [enableCellTextSelection]="true"
+                     [ensureDomOrder]="true"></ag-grid-angular>
+  </div>
+</ng-template>
